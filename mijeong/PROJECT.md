@@ -1,32 +1,17 @@
-# Project List Up
+# Project
+
++ Problem Solving with Scenario
+
+## Member
+
++ Rachel Park
++ Bob Kim
 
 ## Process
 
-- 목적은 무엇인가?
-- 얻고자 하는 기술은 무엇인가?
-- 그 기술들 중, 기반기술은 무엇인가?
-- 기술들의 우선순위 정하기 
-- 우선순위 별로 작은 프로젝트 정하기 
-
-## Keywords
-
-- IoT
-- Firmware
-- Security
-- Platform
-- Protocol
-  - HTTP/S
-  - MQTT
-  - AMQP
-
-## Reference Projects
-
-- [azure-iot-sdks](https://github.com/Azure/azure-iot-sdks)
-
-## Projects
-
-- IoT Hub
-  - 하나의 도메인 영역을 정한다. (ex. 농장, 헬스장 ..) 
-  - 선택한 도메인 영역 내에서 하나의 시나리오를 정한다. 
-  - Server ~ Device 간 통신 Protocol을 1가지 정하여 개발한다. 
+1. Select problem 
+2. Write pseudo code about problem
+3. Discuss this pseudo code each other
+4. Write code with familiar programming language 
+5. Convert code to functional and OOP code
  
