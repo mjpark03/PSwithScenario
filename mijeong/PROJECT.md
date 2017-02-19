@@ -4,8 +4,8 @@
 
 ## Member
 
-+ Rachel Park
-+ Bob Kim
++ [Rachel Park](https://github.com/mjpark03)
++ [Bob Kim](https://github.com/KimmTY)
 
 ## Process
 
@@ -20,4 +20,6 @@
 1. [LeetCode - LFU Caache](https://leetcode.com/problems/lfu-cache/?tab=Description)
 2. [LeetCode - Binary Tree Maximum Path Sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/?tab=Description)
 3. [LeetCode - Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/?tab=Description)
+
+## Plan
  
