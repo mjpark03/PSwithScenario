@@ -14,8 +14,15 @@
 
 ## Select Data Structure and Algorithm
 
-* Map: store key and value
-* Array: record frequency for each key
-* Queue: insert key in the order that get method is invoked
+* HashMap 1: store key and value
+  * key: Integer
+  * value: Integer
+* HashMap 2: record frequency for each key
+  * key: Integer
+  * value: Integer, the count of key
+* HashMap 3: record key set for each frequency
+  * key: Integer, the count
+  * value: HashSet, key set
 
+## 
 
