@@ -24,5 +24,9 @@
   * key: Integer, the count
   * value: HashSet, key set
 
-## 
+## Example
+
+<img src="https://cloud.githubusercontent.com/assets/5056158/23822590/77d6d2f8-0692-11e7-990d-1988a85157b8.jpg" width="400">
+
+
 
