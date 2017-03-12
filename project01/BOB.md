@@ -18,7 +18,7 @@
     + address(each linked list's address): int
 + Hashmap2: Store count and address
   + count: int
-  + address(the most recent address of each count): int
+  + address(the most recent address of each count): linked list
 
 
 #Example
