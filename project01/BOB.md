@@ -9,4 +9,4 @@
   + if reach its capacity, invalidate the least frequently used item
   + if there is a tie of the least values, invalidate the least recently used item
 
-#Data structure
+#Design data structure
