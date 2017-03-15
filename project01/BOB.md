@@ -24,3 +24,10 @@
 #Example
 
 <img src="https://cloud.githubusercontent.com/assets/16299919/23830796/5cfaeec8-0756-11e7-9371-95d54a287fab.PNG" width="400">
+
+
+#Psuedo code
+
+<img src="https://cloud.githubusercontent.com/assets/16299919/23939595/cc876956-09a4-11e7-9426-9bda312275b7.JPG" width="400">
+<img src="https://cloud.githubusercontent.com/assets/16299919/23939596/ce02b5f6-09a4-11e7-800b-aa44335c9ffe.JPG" width="400">
+
