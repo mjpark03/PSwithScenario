@@ -18,7 +18,10 @@ public:
 
   LFUCache(int _capacity) {
     capacity = _capacity;
-    min = 0;    
+    min = 0;
+
+    unordered_set<int> initSet;
+    orderMap[1] = initSet;
   }
 
   void printset(const myset& s) {  
@@ -29,12 +32,40 @@ public:
   }  
     
   int get(int key) {
+
+    if(map.count(key) != 1)
+      return -1;
+
+    int count = countMap[key];
+    countMap[key] = count + 1;
+
+    auto prevOrderObj = orderMap.find(count);
+    unordered_set<int> prevSet = prevOrderObj->second;
+    prevSet.erase(key);
+
+    if(count == min && prevSet.size() <= 0)
+      min = min + 1;
+
+    if(orderMap.count(count + 1) <= 0) {
+      unordered_set<int> newSet;
+      orderMap[count] = newSet;
+    }
+
+    auto currentOrderObj = orderMap.find(count + 1);
+    unordered_set<int> currentSet = currentOrderObj->second;
+    currentSet.insert(key);
     
-    return key;        
+    return map.find(key)->second;        
   }  
     
   void put(int key, int value) {
     int size = map.size();
+
+    if(map.count(key) == 1) {
+      map[key] = value;
+      get(key);
+      return;
+    }
 
     if(size >= capacity) {
       
@@ -50,37 +81,13 @@ public:
     } 
 
     map[key] = value;
-
-    if(countMap.count(key) == 1) {
-      countMap[key] = countMap[key] + 1;
-    } else {
-      countMap[key] = 1;
-    }
-    int count = countMap[key];
-
-    
-    if(orderMap.count(count) <= 0) {
-      unordered_set<int> newSet;
-      newSet.insert(key);
-      orderMap[count] = newSet;
-    } else {
-      auto orderObj = orderMap.find(count);
-      unordered_set<int> currentSet = orderObj->second;
-      currentSet.insert(key);
-    }
-
-    unordered_set<int> prevSet;
-    
-    if(count > 1) {
-      auto prevOrderObj = orderMap.find(count - 1);
-      prevSet = prevOrderObj->second;
-      prevSet.erase(key);
-    }
-
-    if(prevSet.size() <= 0 || min > 0) {
-      min = count;
-    }
+    countMap[key] = 1;
+    min = 1;
+    auto newOrderObj = orderMap.find(min);
+    unordered_set<int> set = newOrderObj->second;
+    set.insert(key);
   }
+
 };
 
 int main() {
