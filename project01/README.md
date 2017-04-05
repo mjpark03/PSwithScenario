@@ -21,5 +21,7 @@
   - Commands
     - start <IP Address> <Port> : start chatting with someone
     - stop : disconnect chatting
+    
+* Example
 
 
