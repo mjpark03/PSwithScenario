@@ -11,5 +11,14 @@
   - We can chat using our program. When we do typing something, we can see the list including the words that I wrote before.
   
 * Requirements
+  - Conversation Way
+    - 1:1
+  - Algorithm
+    - LFU Cache
+  - Client Format
+    - Console
+  - Commands
+    - start <IP Address> <Port> : start chatting with someone
+    - stop : disconnect chatting
 
 
