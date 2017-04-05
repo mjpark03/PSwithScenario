@@ -4,10 +4,12 @@
 
 # Scenario
 
-* title
+* Title
+  - Chatting Program with auto complete
 
-* description
-
-* requirements
+* Description
+  - We can chat using our program. When we do typing something, we can see the list including the words that I wrote before.
+  
+* Requirements
 
 
