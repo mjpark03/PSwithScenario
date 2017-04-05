@@ -17,6 +17,7 @@
     - LFU Cache
   - Client Format
     - Console
+  - Auto Complete
   - Commands
     - start <IP Address> <Port> : start chatting with someone
     - stop : disconnect chatting
