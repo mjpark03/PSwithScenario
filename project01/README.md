@@ -19,8 +19,11 @@
     - Console
   - Auto Complete
   - Commands
-    - start <IP Address> <Port> : start chatting with someone
+    - start <IP Address> <Port> <Nickname> : start chatting with someone
     - stop : disconnect chatting
+  - Constraint
+    - Only English
+    - Auto Complete Capacity: 5
     
 * Example
 
