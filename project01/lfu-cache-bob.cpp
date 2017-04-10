@@ -189,13 +189,3 @@ public:
 		}
 	}
 };
-
-int main(void) {
-	LFUCache lfucache(2);
-
-	lfucache.put(1, 1);
-	lfucache.put(2, 1);
-
-
-	return 0;
-}
