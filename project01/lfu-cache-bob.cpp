@@ -1,15 +1,5 @@
-/*
- * main.cpp
- *
- *  Created on: 2017. 3. 22.
- *      Author: taeyeopkim
- */
-
-
-
-
 #include <iostream>
-#include <ext/hash_map>
+#include <unordered_map>
 
 using namespace std;
 using namespace __gnu_cxx;
@@ -88,8 +78,8 @@ KeyNode *head;
 
 class LFUCache {
 private:
-	hash_map<int, CacheValue> map_value;
-	hash_map<int, KeyNode*> map_node;
+	unordered_map<int, CacheValue> map_value;
+	unordered_map<int, KeyNode*> map_node;
 	int capacity;
 	Doubly_Llinked dll;
 public:
@@ -99,6 +89,7 @@ public:
 	}
 
 	int get(int key) {
+		if(this->capacity == 0) return -1;
 		if(map_value.find(key) == map_value.end()) {
 			return -1;
 		} else {
@@ -113,29 +104,34 @@ public:
 				}
 			}
 
-			if(map_node[count] == n) {
+			if(map_node.find(count) != map_value.end() && map_node[count] == n) {
 				if(n->prev) {
 					map_node[count] = n->prev;
 				} else {
 					map_node.erase(count);
 				}
 			}
-			KeyNode *temp_n_prev = n->prev;
-			KeyNode *temp_n_next = n->next;
-			dll.distract(n);
+
+			KeyNode *temp_n_prev = NULL;
+			KeyNode *temp_n_next = NULL;
+			if(n) {
+				temp_n_prev = n->prev;
+				temp_n_next = n->next;
+				dll.distract(n);
+			}
 
 			if(map_node.find(count+1) == map_node.end()) {
-				if(map_node[count] != n) {
+				if(map_node.find(count) != map_node.end() && map_node[count] != n) {
 					dll.add_next(map_node[count], n);
 				} else {
-					if(temp_n_prev) {
+					if(temp_n_prev != NULL) {
 						dll.add_next(temp_n_prev, n);
 						if(map_value[temp_n_prev->key].count == count) {
 							map_node[count] = temp_n_prev;
 						} else {
 							map_node.erase(count);
 						}
-					} else if(temp_n_next) {
+					} else if(temp_n_next != NULL) {
 						dll.add_before(temp_n_next, n);
 						map_node.erase(count);
 					}
@@ -153,11 +149,19 @@ public:
 	}
 
 	void put(int key, int value) {
+		if(this->capacity == 0) return;
+
+		if(map_value.find(key) != map_value.end()) {
+			map_value[key].value = value;
+			get(key);
+			return;
+		}
+
 		if(map_value.size() == this->capacity) {
 			int head_key = head->key;
 			int head_count = map_value[head_key].count;
 
-			if(map_node[head_count]->key == head_key) {
+			if(map_node.find(head_count) != map_node.end() && map_node[head_count]->key == head_key) {
 				map_node.erase(head_count);
 			}
 			map_value.erase(head_key);
@@ -190,16 +194,8 @@ int main(void) {
 	LFUCache lfucache(2);
 
 	lfucache.put(1, 1);
-	lfucache.put(2, 2);
-	lfucache.get(1);
-	lfucache.put(3, 3);
-	lfucache.get(2);
-	lfucache.get(3);
-	lfucache.put(4, 4);
-	lfucache.get(1);
-	lfucache.get(3);
-	lfucache.get(4);
+	lfucache.put(2, 1);
+
 
 	return 0;
 }
-
