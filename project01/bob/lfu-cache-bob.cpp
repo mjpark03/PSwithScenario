@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unordered_map>
+#include <list>
 
 using namespace std;
 using namespace __gnu_cxx;
@@ -80,7 +81,7 @@ class LFUCache {
 private:
 	unordered_map<int, CacheValue> map_value;
 	unordered_map<int, KeyNode*> map_node;
-	int capacity;
+	uint32_t capacity;
 	Doubly_Llinked dll;
 public:
 	LFUCache(int capacity) {
@@ -104,7 +105,7 @@ public:
 				}
 			}
 
-			if(map_node.find(count) != map_value.end() && map_node[count] == n) {
+			if(map_node.find(count) != map_node.end() && map_node[count] == n) {
 				if(n->prev) {
 					map_node[count] = n->prev;
 				} else {
@@ -189,3 +190,7 @@ public:
 		}
 	}
 };
+
+int main(void) {
+    return 0;
+}
