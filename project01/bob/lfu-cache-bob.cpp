@@ -11,11 +11,7 @@ public:
 	KeyNode *prev;
 	KeyNode *next;
 
-	KeyNode(int key) {
-		this->key = key;
-		this->next = NULL;
-		this->prev = NULL;
-	}
+	KeyNode(int key) : key(key), prev(NULL), next(NULL) {}
 };
 
 class Doubly_Llinked {
