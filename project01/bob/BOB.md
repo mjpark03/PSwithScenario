@@ -36,3 +36,4 @@
 
 + [sublime g++ version](https://codeconnect.wordpress.com/2015/10/11/building-c11-code-in-sublime-text-3/)
 + LeetCode only accept <unordered_map>, no <hash_map>
++ [sublime auto indenting](https://coderwall.com/p/7yxpdw/auto-indenting-on-sublime-text-3)
