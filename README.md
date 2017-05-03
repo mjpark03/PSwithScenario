@@ -37,6 +37,6 @@
     + offline meeting(2017.03.29 Wed)
   + Do 6 among Process for 3 week(Apr 5th - May 2nd)
     + offline meeting(2017.05.03 Wed)
-    + offline meeting(~~2017.05.10 Wed~~2017.05.17 Wed)
+    + offline meeting(~~2017.05.10 Wed~~ 2017.05.17 Wed)
   + Do 7 among Process for 2 week(May 3rd - 4th)
     + offline meeting(2017.05.24 Wed)
