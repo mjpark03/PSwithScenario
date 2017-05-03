@@ -32,3 +32,7 @@
 <img src="https://cloud.githubusercontent.com/assets/16299919/23939595/cc876956-09a4-11e7-9426-9bda312275b7.JPG" width="400">
 <img src="https://cloud.githubusercontent.com/assets/16299919/23939596/ce02b5f6-09a4-11e7-800b-aa44335c9ffe.JPG" width="400">
 
+# Troubleshooting
+
++ [sublime g++ version](https://codeconnect.wordpress.com/2015/10/11/building-c11-code-in-sublime-text-3/)
++ LeetCode only accept <unordered_map>, no <hash_map>
