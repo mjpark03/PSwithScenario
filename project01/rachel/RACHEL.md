@@ -28,5 +28,9 @@
 
 <img src="https://cloud.githubusercontent.com/assets/5056158/23822590/77d6d2f8-0692-11e7-990d-1988a85157b8.jpg" width="400">
 
+## Plan Detail
 
+1. Refactoring algorithm & Adding test code ( ~ 5/7)
+2. Implementing chatting program using LFU cache w/ Scala ( ~ 5/16)
+3. Applying CERT to chatting program ( ~ 5/24)
 
