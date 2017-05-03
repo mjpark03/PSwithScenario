@@ -1,4 +1,6 @@
-import java.util.HashMap; 
+package main.com.rachel;
+
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 
 
