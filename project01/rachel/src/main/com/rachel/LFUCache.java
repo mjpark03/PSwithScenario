@@ -66,6 +66,6 @@ public class LFUCache {
         map.put(key, value);
         countMap.put(key, 1);
         min = 1;
-        orderMap.get(1).add(key);
+        orderMap.get(min).add(key);
     }
 }
