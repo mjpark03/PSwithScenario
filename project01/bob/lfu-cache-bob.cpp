@@ -68,7 +68,7 @@ public:
 	KeyNode *node;
 
 	CacheValue() {}
-	CacheValue(int value, KeyNode *node) : value(value), node(node), count(1) {}
+	CacheValue(int value, KeyNode *node) : value(value), count(1), node(node){}
 };
 
 class LFUCache {
@@ -77,25 +77,27 @@ private:
 	unordered_map<int, KeyNode*> map_node;
 	Doubly_Llinked dll;
 	KeyNode *lfuNode;
-	int capacity;
+	size_t capacity;
 
 	enum MAP_CAT{
 		MAP_CAT_NODE,
 		MAP_CAT_VALUE
 	};
 
-	bool doesMapHasKey(int key, MAP_CAT cat);
+	bool doesMapHaveKey(int key, MAP_CAT cat);
 	bool isNodeEqualLfuNode(KeyNode *node);
 	bool isLfuNodeCountLessThanNextNodeCount(KeyNode *node, int count);
 	bool isNodeEqualMapNode(KeyNode *node, int count);
 	bool isCountEqualMapValueCount(int key, int count);
+    bool isMapValueFull();
+    bool isKeyEqualMapNodeKey(int count, int key);
 public:
-	LFUCache(int capacity) : capacity(capacity), lfuNode(NULL) {}
+	LFUCache(int capacity) : lfuNode(NULL), capacity(capacity) {}
 	int get(int key);
 	void put(int key, int value);
 };
 
-bool LFUCache::doesMapHasKey(int key, MAP_CAT cat) {
+bool LFUCache::doesMapHaveKey(int key, MAP_CAT cat) {
 	if(cat == MAP_CAT_NODE) {
 		return map_node.find(key) != map_node.end();
 	} else {
@@ -112,7 +114,7 @@ bool LFUCache::isNodeEqualLfuNode(KeyNode *node) {
 
 bool LFUCache::isLfuNodeCountLessThanNextNodeCount(KeyNode *node, int count) {
 	if(!node->next) return false;
-	if(map_value[node->next->key].count > count + 1) return false;
+	if(map_value[node->next->key].count > count+1) return false;
 
 	return true;
 }
@@ -125,10 +127,18 @@ bool LFUCache::isCountEqualMapValueCount(int key, int count) {
 	return map_value[key].count == count;
 }
 
+bool LFUCache::isMapValueFull() {
+    return map_value.size() == capacity;
+}
+
+bool LFUCache::isKeyEqualMapNodeKey(int count, int key) {
+    return map_node[count]->key == key;
+}
+
 int LFUCache::get(int key) {
 	if(key < 0) return -1;
 	if(capacity == 0) return -1;
-	if(!doesMapHasKey(key, MAP_CAT_VALUE)) return -1;
+	if(!doesMapHaveKey(key, MAP_CAT_VALUE)) return -1;
 
 	int key_count = map_value[key].count;
 	KeyNode *key_node = map_value[key].node;
@@ -152,8 +162,8 @@ int LFUCache::get(int key) {
 		dll.distract(key_node);
 	}
 
-	if(!doesMapHasKey(key_count + 1, MAP_CAT_NODE)) {
-		if(doesMapHasKey(key_count, MAP_CAT_NODE)) {
+	if(!doesMapHaveKey(key_count+1, MAP_CAT_NODE)) {
+		if(doesMapHaveKey(key_count, MAP_CAT_NODE)) {
 			dll.add_next(map_node[key_count], key_node);
 		} else if(temp_n_prev) {
 			dll.add_next(temp_n_prev, key_node);
@@ -166,11 +176,10 @@ int LFUCache::get(int key) {
 			dll.add_before(temp_n_next, key_node);
 			map_node.erase(key_count);
 		}
-		
-		map_node.insert(make_pair(key_count + 1, key_node));
+		map_node.insert(make_pair(key_count+1, key_node));
 	} else {
-		dll.add_next(map_node[key_count + 1], key_node);
-		map_node[key_count + 1] = key_node;
+		dll.add_next(map_node[key_count+1], key_node);
+		map_node[key_count+1] = key_node;
 	}
 
 	map_value[key].count++;
@@ -179,25 +188,26 @@ int LFUCache::get(int key) {
 }
 
 void LFUCache::put(int key, int value) {
-	if(this->capacity == 0) return;
-	if(map_value.find(key) != map_value.end()) {
+	if(capacity == 0) return;
+	if(doesMapHaveKey(key, MAP_CAT_VALUE)) {
 		map_value[key].value = value;
 		get(key);
 		return;
 	}
 
-	if(map_value.size() == this->capacity) {
-		int head_key = lfuNode->key;
-		int head_count = map_value[head_key].count;
+    if(isMapValueFull()) {
+		int lfu_cache_key = lfuNode->key;
+		int lfu_cache_count = map_value[lfu_cache_key].count;
 
-		if(map_node.find(head_count) != map_node.end() && map_node[head_count]->key == head_key) {
-			map_node.erase(head_count);
+        if(doesMapHaveKey(lfu_cache_count, MAP_CAT_NODE)
+            && isKeyEqualMapNodeKey(lfu_cache_count, lfu_cache_key)) {
+			map_node.erase(lfu_cache_count);
 		}
-		map_value.erase(head_key);
-		KeyNode *temp_head = lfuNode;
+		map_value.erase(lfu_cache_key);
+		KeyNode *temp_lfu_cache = lfuNode;
 		lfuNode = lfuNode->next;
-		dll.distract(temp_head);
-		delete(temp_head);
+		dll.distract(temp_lfu_cache);
+		delete(temp_lfu_cache);
 	}
 
 	KeyNode *n = new KeyNode(key);
