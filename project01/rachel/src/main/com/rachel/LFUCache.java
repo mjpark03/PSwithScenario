@@ -5,6 +5,7 @@ import java.util.LinkedHashSet;
 
 
 public class LFUCache {
+
     HashMap<Integer, Integer> map;
     HashMap<Integer, Integer> countMap;
     HashMap<Integer, LinkedHashSet<Integer>> orderMap;
@@ -25,6 +26,11 @@ public class LFUCache {
 
         if(!map.containsKey(key))
             return -1;
+
+        return arrangeOrder(key);
+    }
+
+    private int arrangeOrder(int key) {
 
         int count = countMap.get(key);
         countMap.put(key, count + 1);
@@ -47,7 +53,7 @@ public class LFUCache {
 
         if(map.containsKey(key)) {
             map.put(key, value);
-            get(key);
+            arrangeOrder(key);
             return;
         } 
 
@@ -60,6 +66,6 @@ public class LFUCache {
         map.put(key, value);
         countMap.put(key, 1);
         min = 1;
-        orderMap.get(1).add(key);
+        orderMap.get(min).add(key);
     }
 }
