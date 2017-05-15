@@ -196,34 +196,34 @@ void LFUCache::put(int key, int value) {
 	}
 
     if(isMapValueFull()) {
-		int lfu_cache_key = lfuNode->key;
-		int lfu_cache_count = map_value[lfu_cache_key].count;
+		int lfu_node_key = lfuNode->key;
+		int lfu_node_count = map_value[lfu_node_key].count;
 
-        if(doesMapHaveKey(lfu_cache_count, MAP_CAT_NODE)
-            && isKeyEqualMapNodeKey(lfu_cache_count, lfu_cache_key)) {
-			map_node.erase(lfu_cache_count);
+        if(doesMapHaveKey(lfu_node_count, MAP_CAT_NODE)
+            && isKeyEqualMapNodeKey(lfu_node_count, lfu_node_key)) {
+			map_node.erase(lfu_node_count);
 		}
-		map_value.erase(lfu_cache_key);
-		KeyNode *temp_lfu_cache = lfuNode;
+		map_value.erase(lfu_node_key);
+		KeyNode *temp_lfu_node = lfuNode;
 		lfuNode = lfuNode->next;
-		dll.distract(temp_lfu_cache);
-		delete(temp_lfu_cache);
+		dll.distract(temp_lfu_node);
+		delete(temp_lfu_node);
 	}
 
 	KeyNode *n = new KeyNode(key);
 	map_value.insert(make_pair(key, CacheValue(value, n)));
 
-		if(map_node.find(1) == map_node.end()) { //Not found
-			if(lfuNode)
-				dll.add_before(lfuNode, n);
-			lfuNode = n;
-			map_node.insert(make_pair(1, n));
-		} else { //Found
-			dll.add_next(map_node[1], n);
-			map_node[1] = n;
-		}
+    if(!doesMapHaveKey(1, MAP_CAT_NODE)) {
+        if(lfuNode)
+            dll.add_before(lfuNode, n);
+        lfuNode = n;
+        map_node.insert(make_pair(1, n));
+    } else {
+        dll.add_next(map_node[1], n);
+        map_node[1] = n;
+    }
 
-		if(map_value[lfuNode->key].count > 1) {
-			lfuNode = map_node[1];
-		}
-	}
+    if(map_value[lfuNode->key].count > 1) {
+        lfuNode = map_node[1];
+    }
+}
