@@ -12,7 +12,6 @@ using namespace std;
 int main(void)
 {
     TerminalPrinter tp;
-    LFUCache lc(5);
 
     static char ch;
     static string buf;

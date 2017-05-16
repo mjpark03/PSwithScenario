@@ -79,10 +79,10 @@ bool LFUCache::isKeyEqualMapNodeKey(int count, int key) {
     return map_node[count]->key == key;
 }
 
-string LFUCache::get(int key) {
-	if(key < 0) return NULL;
-	if(capacity == 0) return NULL;
-	if(!doesMapHaveKey(key, MAP_CAT_VALUE)) return NULL;
+vector<string> LFUCache::get(int key) {
+	if(key < 0) return {};
+	if(capacity == 0) return {};
+	if(!doesMapHaveKey(key, MAP_CAT_VALUE)) return {};
 
 	int key_count = map_value[key].count;
 	KeyNode *key_node = map_value[key].node;

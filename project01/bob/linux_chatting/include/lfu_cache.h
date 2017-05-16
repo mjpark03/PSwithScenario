@@ -2,6 +2,7 @@
 #define __LFU_CACHE__
 
 #include <unordered_map>
+#include <vector>
 
 using namespace std;
 using namespace __gnu_cxx;
@@ -25,7 +26,7 @@ public:
 
 class CacheValue {
 public:
-	string value;
+	vector<string> value;
 	int count;
 	KeyNode *node;
 
@@ -55,7 +56,7 @@ private:
     bool isKeyEqualMapNodeKey(int count, int key);
 public:
 	LFUCache(int capacity) : lfuNode(NULL), capacity(capacity) {}
-	string get(int key);
+	vector<string> get(int key);
 	void put(int key, string value);
 };
 

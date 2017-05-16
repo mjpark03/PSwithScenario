@@ -21,11 +21,19 @@ void TerminalPrinter::set_input_mode() {
     t.c_lflag &= ~ICANON;
     tcsetattr(0, TCSANOW, &t);
 }
-void TerminalPrinter::print(string &buf) {
+void TerminalPrinter::print(string buf) {
+    if(buf.size() == 0) return;
+
     set_cursor(1, last_line_number);
     cout << prompt_id << " : " << buf << endl;
     if(last_line_number < 23) last_line_number++;
     else cout << endl;
     listen();
+
+    size_t space_idx = buf.find(" ");
+    while(space_idx != buf.npos) {
+        lc->put(buf[0], buf.substr(0, space_idx));
+        buf.erase(0, space_idx);
+    }
 }
 

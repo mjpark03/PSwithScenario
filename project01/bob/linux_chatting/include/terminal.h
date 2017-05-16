@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <stdio.h>
+#include "../include/lfu_cache.h"
 
 #define TERMINAL_X_SIZE 80
 #define TERMINAL_Y_SIZE 24
@@ -17,6 +18,7 @@ class TerminalPrinter {
         unsigned int input_line_number;
         void set_cursor(int x, int y);
         void clear_line();
+        LFUCache *lc;
     public:
         TerminalPrinter() : prompt_id(PROMPT_ID),
                             last_line_number(1),
@@ -24,11 +26,12 @@ class TerminalPrinter {
             clear();
             listen();
             set_input_mode();
+            lc = new LFUCache(5);
         }
         void clear();
         void listen();
         void set_input_mode();
-        void print(string &buf);
+        void print(string buf);
 };
 
 #endif
