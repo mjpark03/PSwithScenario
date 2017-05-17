@@ -31,7 +31,7 @@ public:
 	KeyNode *node;
 
 	CacheValue() {}
-	CacheValue(string value, KeyNode *node) : value(value), count(1), node(node){}
+	CacheValue(vector<string> value, KeyNode *node) : value(value), count(1), node(node){}
 };
 
 class LFUCache {

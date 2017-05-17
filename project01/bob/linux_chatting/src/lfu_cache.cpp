@@ -1,4 +1,5 @@
 #include "../include/lfu_cache.h"
+#include <iostream>
 
 void Doubly_Llinked::add_before(KeyNode *std, KeyNode *newBefore) {
 	if(!std || !newBefore) return;
@@ -134,7 +135,7 @@ vector<string> LFUCache::get(int key) {
 void LFUCache::put(int key, string value) {
 	if(capacity == 0) return;
 	if(doesMapHaveKey(key, MAP_CAT_VALUE)) {
-		map_value[key].value = value;
+		map_value[key].value.push_back(value);
 		get(key);
 		return;
 	}
@@ -155,7 +156,7 @@ void LFUCache::put(int key, string value) {
 	}
 
 	KeyNode *n = new KeyNode(key);
-	map_value.insert(make_pair(key, CacheValue(value, n)));
+	map_value.insert(make_pair(key, CacheValue(vector<string>{value}, n)));
 
     if(!doesMapHaveKey(1, MAP_CAT_NODE)) {
         if(lfuNode)

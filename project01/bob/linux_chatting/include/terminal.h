@@ -1,37 +1,31 @@
 #ifndef __TERMINAL__
 #define __TERMINAL__
 
-#include <iostream>
-#include <stdio.h>
 #include "../include/lfu_cache.h"
 
-#define TERMINAL_X_SIZE 80
-#define TERMINAL_Y_SIZE 24
-#define PROMPT_ID "client"
-
 using namespace std;
+
+typedef struct Cursor {
+    unsigned int chat_last_y_pos;
+    unsigned int input_y_pos;
+    unsigned int input_last_x_pos;
+    unsigned int auto_words_y_pos;
+} cursor_t;
 
 class TerminalPrinter {
     private:
         string prompt_id;
-        unsigned int last_line_number;
-        unsigned int input_line_number;
+        cursor_t cursor;
         void set_cursor(int x, int y);
         void clear_line();
         LFUCache *lc;
     public:
-        TerminalPrinter() : prompt_id(PROMPT_ID),
-                            last_line_number(1),
-                            input_line_number(TERMINAL_Y_SIZE-1) {
-            clear();
-            listen();
-            set_input_mode();
-            lc = new LFUCache(5);
-        }
+        TerminalPrinter();
         void clear();
         void listen();
         void set_input_mode();
         void print(string buf);
+        void show_input_words(char ch);
 };
 
 #endif

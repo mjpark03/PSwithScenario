@@ -13,8 +13,8 @@ int main(void)
 {
     TerminalPrinter tp;
 
-    static char ch;
-    static string buf;
+    char ch;
+    string buf;
 
     while(1) {
         ch = cin.get();
@@ -30,6 +30,9 @@ int main(void)
             continue;
         }
         buf.push_back(ch);
+        if(buf.size() == 1) {
+            tp.show_input_words(buf[0]);
+        }
     }
     return 0;
 }
