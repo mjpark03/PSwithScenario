@@ -1,5 +1,6 @@
 #include "../include/lfu_cache.h"
 #include <iostream>
+#include <algorithm>
 
 void Doubly_Llinked::add_before(KeyNode *std, KeyNode *newBefore) {
 	if(!std || !newBefore) return;
@@ -132,10 +133,18 @@ vector<string> LFUCache::get(int key) {
 	return map_value[key].value;
 }
 
+void RemoveExistValueOfMapValue(vector<string> &vs, string value) {
+    vector<string>::iterator it;
+    it = find(vs.begin(), vs.end(), value);
+    if(it == vs.end()) return;
+    vs.erase(it, it+1);
+}
+
 void LFUCache::put(int key, string value) {
 	if(capacity == 0) return;
 	if(doesMapHaveKey(key, MAP_CAT_VALUE)) {
-		map_value[key].value.push_back(value);
+        RemoveExistValueOfMapValue(map_value[key].value, value);
+		map_value[key].value.insert(map_value[key].value.begin(), value);
 		get(key);
 		return;
 	}

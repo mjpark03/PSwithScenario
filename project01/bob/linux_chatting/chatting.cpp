@@ -4,10 +4,10 @@
 
 using namespace std;
 
-#define BACKSPACE_INPUT 127
-#define BACKSPACE "\b\b\b    \b\b\b\b"
-#define END_INPUT '#'
-#define NEW_LINE '\n'
+static const char BACKSPACE_INPUT = 127;
+static const char END_INPUT = '#';
+static const char NEW_LINE = '\n';
+static const string BACKSPACE = "\b\b\b    \b\b\b\b";
 
 int main(void)
 {
@@ -29,9 +29,15 @@ int main(void)
             buf.clear();
             continue;
         }
+        if(ch >= '1' && ch <= '5') {
+            buf = tp.auto_complete_word(ch);
+            continue;
+        }
         buf.push_back(ch);
         if(buf.size() == 1) {
             tp.show_input_words(buf[0]);
+        } else if(buf.size() == 2) {
+            tp.hide_input_words();
         }
     }
     return 0;

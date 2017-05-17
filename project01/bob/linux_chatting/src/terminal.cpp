@@ -5,16 +5,16 @@
 #define TERMINAL_X_SIZE 80
 #define TERMINAL_Y_SIZE 24
 #define PROMPT_ID "client"
-#define QUIT_NOTI "'#' will be close"
 
 const static unsigned int BEGIN_X_POS = 1;
+const static char QUIT_NOTI[] = "('#' will be close) : ";
 
 TerminalPrinter::TerminalPrinter() :
         prompt_id(PROMPT_ID),
-        cursor{BEGIN_X_POS,
+        cursor{ BEGIN_X_POS,
                 TERMINAL_Y_SIZE-1,
                 sizeof(PROMPT_ID) + sizeof(QUIT_NOTI),
-                TERMINAL_Y_SIZE} {
+                TERMINAL_Y_SIZE } {
     clear();
     listen();
     set_input_mode();
@@ -28,11 +28,11 @@ void TerminalPrinter::clear_line() {
 }
 void TerminalPrinter::set_cursor(int x, int y) {
     cout << "\033[" << y << ";" << x << "H";
-    clear_line();
 }
 void TerminalPrinter::listen() {
     set_cursor(BEGIN_X_POS, cursor.input_y_pos);
-    cout << prompt_id << "('#' will be close) : ";
+    clear_line();
+    cout << prompt_id << QUIT_NOTI;
 }
 void TerminalPrinter::set_input_mode() {
     struct termios t;
@@ -61,6 +61,7 @@ void TerminalPrinter::print(string buf) {
     if(buf.size() == 0) return;
 
     set_cursor(BEGIN_X_POS, cursor.chat_last_y_pos);
+    clear_line();
     cout << prompt_id << " : " << buf << endl;
     if(cursor.chat_last_y_pos < 23) cursor.chat_last_y_pos++;
     else cout << endl;
@@ -72,10 +73,28 @@ void TerminalPrinter::print(string buf) {
     }
 }
 void TerminalPrinter::show_input_words(char ch) {
-    vector<string> words = lc->get(ch);
+    auto_words = lc->get(ch);
+    if(auto_words.size() == 0) return;
     set_cursor(BEGIN_X_POS, cursor.auto_words_y_pos);
-    for(size_t i=0;i<words.size();i++) {
-        cout << i+1 << "." << words[i] << " ";
+    clear_line();
+    for(size_t i=0;i<auto_words.size() && i<5;i++) {
+        cout << i+1 << "." << auto_words[i] << " ";
     }
-    set_cursor(cursor.input_last_x_pos, cursor.input_y_pos);
+    set_cursor(cursor.input_begin_x_pos, cursor.input_y_pos);
+}
+void TerminalPrinter::hide_input_words() {
+    set_cursor(BEGIN_X_POS, cursor.auto_words_y_pos);
+    clear_line();
+    set_cursor(cursor.input_begin_x_pos+1, cursor.input_y_pos);
+    auto_words.clear();
+}
+
+string TerminalPrinter::auto_complete_word(char ch) {
+    unsigned int word_idx = ch - '1';
+    if(auto_words.size() <= word_idx) return NULL;
+    set_cursor(BEGIN_X_POS, cursor.auto_words_y_pos);
+    clear_line();
+    set_cursor(cursor.input_begin_x_pos-1, cursor.input_y_pos);
+    cout << auto_words[word_idx];
+    return auto_words[word_idx];
 }

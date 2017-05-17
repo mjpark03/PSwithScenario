@@ -1,6 +1,7 @@
 #ifndef __LFU_CACHE__
 #define __LFU_CACHE__
 
+#include <iostream>
 #include <unordered_map>
 #include <vector>
 

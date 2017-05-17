@@ -8,7 +8,7 @@ using namespace std;
 typedef struct Cursor {
     unsigned int chat_last_y_pos;
     unsigned int input_y_pos;
-    unsigned int input_last_x_pos;
+    unsigned int input_begin_x_pos;
     unsigned int auto_words_y_pos;
 } cursor_t;
 
@@ -16,6 +16,7 @@ class TerminalPrinter {
     private:
         string prompt_id;
         cursor_t cursor;
+        vector<string> auto_words;
         void set_cursor(int x, int y);
         void clear_line();
         LFUCache *lc;
@@ -26,6 +27,8 @@ class TerminalPrinter {
         void set_input_mode();
         void print(string buf);
         void show_input_words(char ch);
+        void hide_input_words();
+        string auto_complete_word(char ch);
 };
 
 #endif
