@@ -1,7 +1,7 @@
 #include <iostream>
 #include "include/terminal.h"
 #include "include/lfu_cache.h"
-
+#include "include/client.h"
 using namespace std;
 
 static const char BACKSPACE_INPUT = 127;
@@ -12,6 +12,8 @@ static const string BACKSPACE = "\b\b\b    \b\b\b\b";
 int main(void)
 {
     TerminalPrinter tp;
+    Client cl(9000);
+    if(!cl.init()) cout << "client fail" << endl;
 
     char ch;
     string buf;

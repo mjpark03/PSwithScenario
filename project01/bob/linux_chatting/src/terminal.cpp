@@ -57,6 +57,16 @@ vector<string> get_string_words(string buf) {
     }
     return words;
 }
+void TerminalPrinter::print_echo(string buf) {
+    if(buf.size() == 0) return;
+
+    set_cursor(BEGIN_X_POS, cursor.chat_last_y_pos);
+    clear_line();
+    cout << buf << endl;
+    if(cursor.chat_last_y_pos < 23) cursor.chat_last_y_pos++;
+    else cout << endl;
+    listen();
+}
 void TerminalPrinter::print(string buf) {
     if(buf.size() == 0) return;
 

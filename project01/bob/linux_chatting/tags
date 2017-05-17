@@ -4,15 +4,23 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-BACKSPACE	chatting.cpp	8;"	d	file:
-BACKSPACE_INPUT	chatting.cpp	7;"	d	file:
+BACKSPACE	chatting_client.cpp	/^static const string BACKSPACE = "\\b\\b\\b    \\b\\b\\b\\b";$/;"	v	file:
+BACKSPACE	chatting_server.cpp	/^static const string BACKSPACE = "\\b\\b\\b    \\b\\b\\b\\b";$/;"	v	file:
+BACKSPACE_INPUT	chatting_client.cpp	/^static const char BACKSPACE_INPUT = 127;$/;"	v	file:
+BACKSPACE_INPUT	chatting_server.cpp	/^static const char BACKSPACE_INPUT = 127;$/;"	v	file:
 BEGIN_X_POS	src/terminal.cpp	/^const static unsigned int BEGIN_X_POS = 1;$/;"	v	file:
+BUF_SIZE	include/client.h	/^const unsigned int BUF_SIZE = 1024;$/;"	v
+BUF_SIZE	include/server.h	/^const unsigned int BUF_SIZE = 1024;$/;"	v
 CacheValue	include/lfu_cache.h	/^	CacheValue() {}$/;"	f	class:CacheValue
 CacheValue	include/lfu_cache.h	/^	CacheValue(vector<string> value, KeyNode *node) : value(value), count(1), node(node){}$/;"	f	class:CacheValue
 CacheValue	include/lfu_cache.h	/^class CacheValue {$/;"	c
+Client	include/client.h	/^class Client {$/;"	c
+Client	src/client.cpp	/^Client::Client(unsigned int port_num) : portNum(port_num) {$/;"	f	class:Client
 Cursor	include/terminal.h	/^typedef struct Cursor {$/;"	s
 Doubly_Llinked	include/lfu_cache.h	/^class Doubly_Llinked {$/;"	c
-END_INPUT	chatting.cpp	9;"	d	file:
+END_INPUT	chatting_client.cpp	/^static const char END_INPUT = '#';$/;"	v	file:
+END_INPUT	chatting_server.cpp	/^static const char END_INPUT = '#';$/;"	v	file:
+IP_SIZE	include/client.h	/^const unsigned int IP_SIZE = 20;$/;"	v
 KeyNode	include/lfu_cache.h	/^	KeyNode(int key) : key(key), prev(NULL), next(NULL) {}$/;"	f	class:KeyNode
 KeyNode	include/lfu_cache.h	/^class KeyNode {$/;"	c
 LFUCache	include/lfu_cache.h	/^	LFUCache(int capacity) : lfuNode(NULL), capacity(capacity) {}$/;"	f	class:LFUCache
@@ -20,22 +28,35 @@ LFUCache	include/lfu_cache.h	/^class LFUCache {$/;"	c
 MAP_CAT	include/lfu_cache.h	/^	enum MAP_CAT{$/;"	g	class:LFUCache
 MAP_CAT_NODE	include/lfu_cache.h	/^		MAP_CAT_NODE,$/;"	e	enum:LFUCache::MAP_CAT
 MAP_CAT_VALUE	include/lfu_cache.h	/^		MAP_CAT_VALUE$/;"	e	enum:LFUCache::MAP_CAT
-NEW_LINE	chatting.cpp	10;"	d	file:
+NEW_LINE	chatting_client.cpp	/^static const char NEW_LINE = '\\n';$/;"	v	file:
+NEW_LINE	chatting_server.cpp	/^static const char NEW_LINE = '\\n';$/;"	v	file:
 PROMPT_ID	src/terminal.cpp	7;"	d	file:
-QUIT_NOTI	src/terminal.cpp	8;"	d	file:
+QUIT_NOTI	src/terminal.cpp	/^const static char QUIT_NOTI[] = "('#' will be close) : ";$/;"	v	file:
+RemoveExistValueOfMapValue	src/lfu_cache.cpp	/^void RemoveExistValueOfMapValue(vector<string> &vs, string value) {$/;"	f
+Server	include/server.h	/^class Server {$/;"	c
+Server	src/server.cpp	/^Server::Server(unsigned int port_num) : portNum(port_num) {$/;"	f	class:Server
 TERMINAL_X_SIZE	src/terminal.cpp	5;"	d	file:
 TERMINAL_Y_SIZE	src/terminal.cpp	6;"	d	file:
 TerminalPrinter	include/terminal.h	/^class TerminalPrinter {$/;"	c
 TerminalPrinter	src/terminal.cpp	/^TerminalPrinter::TerminalPrinter() :$/;"	f	class:TerminalPrinter
+__CLIENT__	include/client.h	2;"	d
 __LFU_CACHE__	include/lfu_cache.h	2;"	d
+__SERVER__	include/server.h	2;"	d
 __TERMINAL__	include/terminal.h	2;"	d
 add_before	src/lfu_cache.cpp	/^void Doubly_Llinked::add_before(KeyNode *std, KeyNode *newBefore) {$/;"	f	class:Doubly_Llinked
 add_next	src/lfu_cache.cpp	/^void Doubly_Llinked::add_next(KeyNode *std, KeyNode *newNext) {$/;"	f	class:Doubly_Llinked
+auto_complete_word	src/terminal.cpp	/^string TerminalPrinter::auto_complete_word(char ch) {$/;"	f	class:TerminalPrinter
+auto_words	include/terminal.h	/^        vector<string> auto_words;$/;"	m	class:TerminalPrinter
 auto_words_y_pos	include/terminal.h	/^    unsigned int auto_words_y_pos;$/;"	m	struct:Cursor
+buffer	include/client.h	/^        char buffer[BUF_SIZE];$/;"	m	class:Client
+buffer	include/server.h	/^        char buffer[BUF_SIZE];$/;"	m	class:Server
 capacity	include/lfu_cache.h	/^	size_t capacity;$/;"	m	class:LFUCache
 chat_last_y_pos	include/terminal.h	/^    unsigned int chat_last_y_pos;$/;"	m	struct:Cursor
 clear	src/terminal.cpp	/^void TerminalPrinter::clear() {$/;"	f	class:TerminalPrinter
 clear_line	src/terminal.cpp	/^void TerminalPrinter::clear_line() {$/;"	f	class:TerminalPrinter
+client	include/client.h	/^        int client;$/;"	m	class:Client
+client	include/server.h	/^        int client;$/;"	m	class:Server
+client_addr	include/client.h	/^        struct sockaddr_in client_addr;$/;"	m	class:Client	typeref:struct:Client::sockaddr_in
 count	include/lfu_cache.h	/^	int count;$/;"	m	class:CacheValue
 cursor	include/terminal.h	/^        cursor_t cursor;$/;"	m	class:TerminalPrinter
 cursor_t	include/terminal.h	/^} cursor_t;$/;"	t	typeref:struct:Cursor
@@ -44,8 +65,12 @@ dll	include/lfu_cache.h	/^	Doubly_Llinked dll;$/;"	m	class:LFUCache
 doesMapHaveKey	src/lfu_cache.cpp	/^bool LFUCache::doesMapHaveKey(int key, MAP_CAT cat) {$/;"	f	class:LFUCache
 get	src/lfu_cache.cpp	/^vector<string> LFUCache::get(int key) {$/;"	f	class:LFUCache
 get_string_words	src/terminal.cpp	/^vector<string> get_string_words(string buf) {$/;"	f
-input_last_x_pos	include/terminal.h	/^    unsigned int input_last_x_pos;$/;"	m	struct:Cursor
+hide_input_words	src/terminal.cpp	/^void TerminalPrinter::hide_input_words() {$/;"	f	class:TerminalPrinter
+init	src/client.cpp	/^bool Client::init() {$/;"	f	class:Client
+init	src/server.cpp	/^bool Server::init() {$/;"	f	class:Server
+input_begin_x_pos	include/terminal.h	/^    unsigned int input_begin_x_pos;$/;"	m	struct:Cursor
 input_y_pos	include/terminal.h	/^    unsigned int input_y_pos;$/;"	m	struct:Cursor
+ip	include/client.h	/^		char ip[IP_SIZE];$/;"	m	class:Client
 isCountEqualMapValueCount	src/lfu_cache.cpp	/^bool LFUCache::isCountEqualMapValueCount(int key, int count) {$/;"	f	class:LFUCache
 isKeyEqualMapNodeKey	src/lfu_cache.cpp	/^bool LFUCache::isKeyEqualMapNodeKey(int count, int key) {$/;"	f	class:LFUCache
 isLfuNodeCountLessThanNextNodeCount	src/lfu_cache.cpp	/^bool LFUCache::isLfuNodeCountLessThanNextNodeCount(KeyNode *node, int count) {$/;"	f	class:LFUCache
@@ -56,18 +81,34 @@ key	include/lfu_cache.h	/^	int key;$/;"	m	class:KeyNode
 lc	include/terminal.h	/^        LFUCache *lc;$/;"	m	class:TerminalPrinter
 lfuNode	include/lfu_cache.h	/^	KeyNode *lfuNode;$/;"	m	class:LFUCache
 listen	src/terminal.cpp	/^void TerminalPrinter::listen() {$/;"	f	class:TerminalPrinter
-main	chatting.cpp	/^int main(void)$/;"	f
-main	src/client.cpp	/^int main()$/;"	f
-main	src/server.cpp	/^int main()$/;"	f
+main	chatting_client.cpp	/^int main(void)$/;"	f
+main	chatting_server.cpp	/^int main(void)$/;"	f
+main	src/raw_client.cpp	/^int main()$/;"	f
+main	src/raw_server.cpp	/^int main()$/;"	f
 map_node	include/lfu_cache.h	/^	unordered_map<int, KeyNode*> map_node;$/;"	m	class:LFUCache
 map_value	include/lfu_cache.h	/^	unordered_map<int, CacheValue> map_value;$/;"	m	class:LFUCache
 next	include/lfu_cache.h	/^	KeyNode *next;$/;"	m	class:KeyNode
 node	include/lfu_cache.h	/^	KeyNode *node;$/;"	m	class:CacheValue
+portNum	include/client.h	/^        int portNum;$/;"	m	class:Client
+portNum	include/server.h	/^        int portNum;$/;"	m	class:Server
 prev	include/lfu_cache.h	/^	KeyNode *prev;$/;"	m	class:KeyNode
 print	src/terminal.cpp	/^void TerminalPrinter::print(string buf) {$/;"	f	class:TerminalPrinter
+print_echo	src/terminal.cpp	/^void TerminalPrinter::print_echo(string buf) {$/;"	f	class:TerminalPrinter
 prompt_id	include/terminal.h	/^        string prompt_id;$/;"	m	class:TerminalPrinter
 put	src/lfu_cache.cpp	/^void LFUCache::put(int key, string value) {$/;"	f	class:LFUCache
+recv_buf	src/client.cpp	/^void Client::recv_buf() {$/;"	f	class:Client
+recv_buf	src/server.cpp	/^void Server::recv_buf() {$/;"	f	class:Server
+send_buf	src/client.cpp	/^void Client::send_buf(char *buffer, unsigned int length) {$/;"	f	class:Client
+send_buf	src/server.cpp	/^void Server::send_buf(char *buffer, unsigned int length) {$/;"	f	class:Server
+server	include/server.h	/^        int server;$/;"	m	class:Server
+server_addr	include/server.h	/^        struct sockaddr_in server_addr;$/;"	m	class:Server	typeref:struct:Server::sockaddr_in
 set_cursor	src/terminal.cpp	/^void TerminalPrinter::set_cursor(int x, int y) {$/;"	f	class:TerminalPrinter
 set_input_mode	src/terminal.cpp	/^void TerminalPrinter::set_input_mode() {$/;"	f	class:TerminalPrinter
 show_input_words	src/terminal.cpp	/^void TerminalPrinter::show_input_words(char ch) {$/;"	f	class:TerminalPrinter
+size	include/client.h	/^        socklen_t size;$/;"	m	class:Client
+size	include/server.h	/^        socklen_t size;$/;"	m	class:Server
+tp	include/client.h	/^        TerminalPrinter *tp;$/;"	m	class:Client
+tp	include/server.h	/^        TerminalPrinter *tp;$/;"	m	class:Server
+uninit	src/client.cpp	/^void Client::uninit() {$/;"	f	class:Client
+uninit	src/server.cpp	/^void Server::uninit() {$/;"	f	class:Server
 value	include/lfu_cache.h	/^	vector<string> value;$/;"	m	class:CacheValue

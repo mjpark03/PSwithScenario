@@ -25,6 +25,7 @@ class TerminalPrinter {
         void clear();
         void listen();
         void set_input_mode();
+        void print_echo(string buf);
         void print(string buf);
         void show_input_words(char ch);
         void hide_input_words();
