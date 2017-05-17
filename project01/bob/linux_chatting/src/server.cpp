@@ -1,18 +1,19 @@
 #include "../include/server.h"
 
 using namespace std;
-Server::Server(unsigned int port_num) : portNum(port_num) {
+Server::Server(unsigned int port_num, TerminalPrinter *tp) : portNum(port_num), tp(tp) {
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = htons(INADDR_ANY);
     server_addr.sin_port = htons(portNum);
 
     size = sizeof(server_addr);
-
-    tp = new TerminalPrinter();
 }
 
 bool Server::init() {
     client = socket(AF_INET, SOCK_STREAM, 0);
+
+    int option = 1;
+    setsockopt(client, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option) );
 
     if (client < 0) {
         tp->print_echo("Error establishing socket...");
@@ -46,7 +47,7 @@ void Server::recv_buf() {
     tp->print_echo(string(buffer));
 }
 
-void Server::send_buf(char *buffer, unsigned int length) {
+void Server::send_buf(const char *buffer, unsigned int length) {
     send(server, buffer, BUF_SIZE, 0);
 }
 

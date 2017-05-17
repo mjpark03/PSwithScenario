@@ -15,13 +15,13 @@ typedef struct Cursor {
 class TerminalPrinter {
     private:
         string prompt_id;
-        cursor_t cursor;
+        cursor_t *cursor;
         vector<string> auto_words;
         void set_cursor(int x, int y);
         void clear_line();
         LFUCache *lc;
     public:
-        TerminalPrinter();
+        TerminalPrinter(const string ID);
         void clear();
         void listen();
         void set_input_mode();

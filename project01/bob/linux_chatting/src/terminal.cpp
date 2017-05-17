@@ -1,24 +1,24 @@
 #include "../include/terminal.h"
 #include <termios.h>
 #include <iostream>
+#include <sys/mman.h>
 
 #define TERMINAL_X_SIZE 80
 #define TERMINAL_Y_SIZE 24
-#define PROMPT_ID "client"
 
 const static unsigned int BEGIN_X_POS = 1;
 const static char QUIT_NOTI[] = "('#' will be close) : ";
 
-TerminalPrinter::TerminalPrinter() :
-        prompt_id(PROMPT_ID),
-        cursor{ BEGIN_X_POS,
-                TERMINAL_Y_SIZE-1,
-                sizeof(PROMPT_ID) + sizeof(QUIT_NOTI),
-                TERMINAL_Y_SIZE } {
+TerminalPrinter::TerminalPrinter(const string ID) : prompt_id(ID) {
     clear();
     listen();
     set_input_mode();
     lc = new LFUCache(5);
+    cursor = (cursor_t *)mmap(NULL, sizeof(cursor_t), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+    cursor->chat_last_y_pos = 1;
+    cursor->input_y_pos = TERMINAL_Y_SIZE-1;
+    cursor->input_begin_x_pos = sizeof(ID) + sizeof(QUIT_NOTI);
+    cursor->auto_words_y_pos = TERMINAL_Y_SIZE;
 }
 void TerminalPrinter::clear() {
     cout << "\033[H\033[J";
@@ -30,7 +30,8 @@ void TerminalPrinter::set_cursor(int x, int y) {
     cout << "\033[" << y << ";" << x << "H";
 }
 void TerminalPrinter::listen() {
-    set_cursor(BEGIN_X_POS, cursor.input_y_pos);
+    cout << "enter listen";
+    set_cursor(BEGIN_X_POS, cursor->input_y_pos);
     clear_line();
     cout << prompt_id << QUIT_NOTI;
 }
@@ -60,20 +61,20 @@ vector<string> get_string_words(string buf) {
 void TerminalPrinter::print_echo(string buf) {
     if(buf.size() == 0) return;
 
-    set_cursor(BEGIN_X_POS, cursor.chat_last_y_pos);
+    set_cursor(BEGIN_X_POS, cursor->chat_last_y_pos);
     clear_line();
     cout << buf << endl;
-    if(cursor.chat_last_y_pos < 23) cursor.chat_last_y_pos++;
+    if(cursor->chat_last_y_pos < 23) cursor->chat_last_y_pos++;
     else cout << endl;
     listen();
 }
 void TerminalPrinter::print(string buf) {
     if(buf.size() == 0) return;
 
-    set_cursor(BEGIN_X_POS, cursor.chat_last_y_pos);
+    set_cursor(BEGIN_X_POS, cursor->chat_last_y_pos);
     clear_line();
     cout << prompt_id << " : " << buf << endl;
-    if(cursor.chat_last_y_pos < 23) cursor.chat_last_y_pos++;
+    if(cursor->chat_last_y_pos < 23) cursor->chat_last_y_pos++;
     else cout << endl;
     listen();
 
@@ -85,26 +86,26 @@ void TerminalPrinter::print(string buf) {
 void TerminalPrinter::show_input_words(char ch) {
     auto_words = lc->get(ch);
     if(auto_words.size() == 0) return;
-    set_cursor(BEGIN_X_POS, cursor.auto_words_y_pos);
+    set_cursor(BEGIN_X_POS, cursor->auto_words_y_pos);
     clear_line();
     for(size_t i=0;i<auto_words.size() && i<5;i++) {
         cout << i+1 << "." << auto_words[i] << " ";
     }
-    set_cursor(cursor.input_begin_x_pos, cursor.input_y_pos);
+    set_cursor(cursor->input_begin_x_pos, cursor->input_y_pos);
 }
 void TerminalPrinter::hide_input_words() {
-    set_cursor(BEGIN_X_POS, cursor.auto_words_y_pos);
+    set_cursor(BEGIN_X_POS, cursor->auto_words_y_pos);
     clear_line();
-    set_cursor(cursor.input_begin_x_pos+1, cursor.input_y_pos);
+    set_cursor(cursor->input_begin_x_pos, cursor->input_y_pos);
     auto_words.clear();
 }
 
 string TerminalPrinter::auto_complete_word(char ch) {
     unsigned int word_idx = ch - '1';
     if(auto_words.size() <= word_idx) return NULL;
-    set_cursor(BEGIN_X_POS, cursor.auto_words_y_pos);
+    set_cursor(BEGIN_X_POS, cursor->auto_words_y_pos);
     clear_line();
-    set_cursor(cursor.input_begin_x_pos-1, cursor.input_y_pos);
+    set_cursor(cursor->input_begin_x_pos-1, cursor->input_y_pos);
     cout << auto_words[word_idx];
     return auto_words[word_idx];
 }

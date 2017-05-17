@@ -23,10 +23,10 @@ class Server {
         socklen_t size;
         TerminalPrinter *tp;
     public:
-        Server(unsigned int port_num);
+        Server(unsigned int port_num, TerminalPrinter *tp);
         bool init();
         void recv_buf();
-        void send_buf(char *buffer, unsigned int length);
+        void send_buf(const char *buffer, unsigned int length);
         void uninit();
 };
 

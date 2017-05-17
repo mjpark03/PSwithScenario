@@ -8,19 +8,31 @@ static const char BACKSPACE_INPUT = 127;
 static const char END_INPUT = '#';
 static const char NEW_LINE = '\n';
 static const string BACKSPACE = "\b\b\b    \b\b\b\b";
+static const string ID = "server";
 
 int main(void)
 {
-    TerminalPrinter tp;
-    Server sv(9000);
-    if(!sv.init()) cout << "server fail" << endl;
+    TerminalPrinter tp(ID);
+    Server sv(9000, &tp);
+    if(!sv.init()) {
+        cout << "client fail" << endl;
+        return 0;
+    }
 
     char ch;
     string buf;
 
+    if(fork() == 0) {
+        while(1) {
+            sv.recv_buf();
+        }
+    }
     while(1) {
         ch = cin.get();
-        if(ch == END_INPUT) return 0;
+        if(ch == END_INPUT) {
+            sv.uninit();
+            return 0;
+        }
         if(ch == BACKSPACE_INPUT) {
             cout << BACKSPACE;
             if(buf.size() > 0) buf.erase(buf.size()-1);
@@ -28,6 +40,8 @@ int main(void)
         }
         if(ch == NEW_LINE) {
             tp.print(buf);
+            buf = ID + " : " + buf;
+            sv.send_buf(buf.c_str(), sizeof(buf));
             buf.clear();
             continue;
         }

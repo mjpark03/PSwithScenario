@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Client::Client(unsigned int port_num) : portNum(port_num) {
+Client::Client(unsigned int port_num, TerminalPrinter *tp) : portNum(port_num), tp(tp) {
     strcpy(ip, "127.0.0.1");
 
     client_addr.sin_family = AF_INET;
@@ -10,13 +10,10 @@ Client::Client(unsigned int port_num) : portNum(port_num) {
     inet_pton(AF_INET, ip, &client_addr.sin_addr);
 
     size = sizeof(client_addr);
-
-    tp = new TerminalPrinter();
 }
 
 bool Client::init() {
     client = socket(AF_INET, SOCK_STREAM, 0);
-
     if (client < 0)
     {
         tp->print_echo("Error establishing socket...");
@@ -38,7 +35,7 @@ void Client::recv_buf() {
     tp->print_echo(string(buffer));
 }
 
-void Client::send_buf(char *buffer, unsigned int length) {
+void Client::send_buf(const char *buffer, unsigned int length) {
     send(client, buffer, BUF_SIZE, 0);
 }
 

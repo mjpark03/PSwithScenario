@@ -24,10 +24,10 @@ class Client {
         socklen_t size;
         TerminalPrinter *tp;
     public:
-        Client(unsigned int port_num);
+        Client(unsigned int port_num, TerminalPrinter *tp);
         bool init();
         void recv_buf();
-        void send_buf(char *buffer, unsigned int length);
+        void send_buf(const char *buffer, unsigned int length);
         void uninit();
 };
 
